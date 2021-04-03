@@ -1,0 +1,51 @@
+import pygame 
+
+window = pygame.display.set_mode((800, 600))
+fon = pygame.transform.scale(pygame.image.load('background.png'), (800, 600))
+
+x_sprite = 0
+y_sprite = 0
+
+x_sprite1 = 0
+y_sprite1 = 0
+
+sprite1 = pygame.transform.scale(pygame.image.load('sprite1.png'), (150, 150))
+sprite2 = pygame.transform.scale(pygame.image.load('sprite2.png'), (100, 150 ))
+run = True
+clock = pygame.time.Clock()
+fps = 60
+while run:
+    window.blit(fon, (0,0))
+    window.blit(sprite2, (x_sprite, y_sprite))
+    window.blit(sprite1, (x_sprite1, y_sprite1))
+
+    events = pygame.event.get()
+    for event in events:
+        if event.type == pygame.QUIT:
+            run = False
+    keys_pressed = pygame.key.get_pressed()
+    if keys_pressed[pygame.K_LEFT] and x_sprite > 0:
+        x_sprite -= 2
+    if keys_pressed[pygame.K_RIGHT]and x_sprite < 800 - 100  :
+        x_sprite += 2
+    if keys_pressed[pygame.K_UP]and y_sprite > 0 :
+        y_sprite -= 2
+    if keys_pressed[pygame.K_DOWN]and y_sprite < 600 - 100:
+        y_sprite += 2
+    
+    if keys_pressed[pygame.K_a] and x_sprite1 > 0:
+        x_sprite1 -=2
+    if keys_pressed[pygame.K_d]and x_sprite1 < 800 - 100:
+        x_sprite1 += 2
+    if keys_pressed[pygame.K_w] and y_sprite1 > 0:
+        y_sprite1 -= 2
+    if keys_pressed[pygame.K_s]and y_sprite1 < 600 - 100:
+        y_sprite1 += 2
+
+
+    if sprite1 == (800, 0):
+        sprite1 = (0, 0)
+
+
+    clock.tick(fps)
+    pygame.display.update()
