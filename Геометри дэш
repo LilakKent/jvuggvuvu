@@ -1,0 +1,35 @@
+import pygame as pg
+window = pg.display.set_mode((800, 600))
+fon = pg.transform.scale(pg.image.load('fon.jpg'), (800, 600))
+
+x = 0
+y = 0
+
+
+dash = pg.transform.scale(pg.image.load('Cube.png'), (100, 100))
+run = True
+clock = pg.time.Clock()
+
+
+#class Enemy(GameSprite):
+
+while run:
+    window.blit(fon, (0,0))
+    window.blit(dash, (x, y))
+
+    events = pg.event.get()
+
+    x += 1 
+
+    for event in events:
+            if event.type == pg.QUIT:
+                run = True
+    keys_pressed = pg.key.get_pressed()
+    if keys_pressed[pg.K_SPACE] and y > 0:
+        y += 1
+
+
+
+
+
+pg.display.update()
