@@ -1,42 +1,116 @@
 import pygame as pg
 window = pg.display.set_mode((800, 600))
 fon = pg.transform.scale(pg.image.load('fon.jpg'), (800, 600))
+fon1 = pg.transform.scale(pg.image.load('fon.jpg'), (800, 600))
 
-x = 0
-y = 0
+class Config:
+    FPS = 40
+    ABS_JUMP_COUNT = 10
+    JUMP_COUNT_ACCEL = 1
+    GENERAL_SPEED = 4
 
+fon_x = 0
 
-dash = pg.transform.scale(pg.image.load('Cube.png'), (100, 100))
+fon1_x = 800
+
+dash_y = 500
+
+dash = pg.transform.scale(pg.image.load('Cube.png'), (50, 50))
+isJump = False
+jumpCount = Config.ABS_JUMP_COUNT
 run = True
 clock = pg.time.Clock()
+finish = False
 
+class Spike(pg.sprite.Sprite):
+    def __init__(self,width1,y,x = 800):
+        super().__init__()
+        self.width1 = width1
+        self.speed = Config.GENERAL_SPEED
+        self.height1 = 10
+        self.image1 = pg.Surface((self.width1,self.height1))
+        self.image1.fill((0,0,0))
+        self.rect1 = self.image1.get_rect()
+        self.rect1.y1 = y
+        self.rect1.x1 = x
+    def updates(self):
+        self.rect.x -= self.speed
+        window.blit(self.image1, (self.rect1.x,self.rect1.y))
+        if self.rect.x + self.width1 < 0:
+            spikes.remove(self)
 
-class Enemy:
-    direction = 'forward'
-    distance = 800
-    def update():
-        if x - x >= 0:
-            self.direction = 'forward'
-        elif self.direction == 'forward':
-            x += self.speed
+class Block(pg.sprite.Sprite):
+    def __init__(self,width,y,x = 800):
+        super().__init__()
+        self.width = width
+        self.speed = Config.GENERAL_SPEED
+        self.height = 10
+        self.image = pg.Surface((self.width,self.height))
+        self.image.fill((0,0,0))
+        self.rect = self.image.get_rect()
+        self.rect.y = y
+        self.rect.x = x
+    def update(self):
+        self.rect.x -= self.speed
+        window.blit(self.image, (self.rect.x,self.rect.y))
+        if self.rect.x + self.width < 0:
+            blocks.remove(self)
+
+spikescor = [(500,300,0)]
+blocksscor = [(400,500,200),
+    (500,400,900,),
+    (500,200,1600)]
+spikes = pg.sprite.Group()
+for s in spikescor:
+    spikes.add(Spike(*s))
+blocks = pg.sprite.Group()
+for b in blocksscor:
+    blocks.add(Block(*b))
+
 
 while run:
-    window.blit(fon, (0,0))
-    window.blit(dash, (x, y))
+    window.blit(fon1, (fon1_x,0))
+    window.blit(fon, (fon_x,0))
+    window.blit(dash, (0, dash_y))
+    blocks.update()
+    spikes.update()
 
     events = pg.event.get()
-
-    x += 1 
+    
+    
+    fon_x -= Config.GENERAL_SPEED
+    fon1_x -= Config.GENERAL_SPEED
+    if fon_x == -800:
+        fon_x = 800
+    if fon1_x == -800:
+        fon1_x = 800
 
     for event in events:
-            if event.type == pg.QUIT:
-                run = True
+        if event.type == pg.QUIT:
+            run = False
+    
     keys_pressed = pg.key.get_pressed()
-    if keys_pressed[pg.K_SPACE] and y > 0:
-        y += 1 
+
+
+    if sprite.collide_rect(dash, spikescor):
+        finish = True
+        window.blit(lose, (200, 200))
 
 
 
+    if keys_pressed[pg.K_SPACE]:
+        isJump = True 
+    if isJump and jumpCount >= -Config.ABS_JUMP_COUNT:
+        if jumpCount < 0:
+            dash_y += (jumpCount ** 2 ) / 2
+        else:
+            dash_y -= (jumpCount ** 2) / 2
+        jumpCount -= Config.JUMP_COUNT_ACCEL
+    else:
+        isJump = False
+        jumpCount = Config.ABS_JUMP_COUNT
 
 
-pg.display.update()
+    clock.tick(Config.FPS)
+
+    pg.display.update()
