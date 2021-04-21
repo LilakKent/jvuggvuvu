@@ -31,8 +31,8 @@ class Spike(pg.sprite.Sprite):
         self.image1 = pg.Surface((self.width1,self.height1))
         self.image1.fill((0,0,0))
         self.rect1 = self.image1.get_rect()
-        self.rect1.y1 = y
-        self.rect1.x1 = x
+        self.rect1.y = y
+        self.rect1.x = x
     def updates(self):
         self.rect.x -= self.speed
         window.blit(self.image1, (self.rect1.x,self.rect1.y))
@@ -66,6 +66,11 @@ for s in spikescor:
 blocks = pg.sprite.Group()
 for b in blocksscor:
     blocks.add(Block(*b))
+
+
+mixer.init()
+mixer.music.load('BaseAfterBase.ogg')
+mixer.music.play()
 
 
 while run:
