@@ -13,8 +13,13 @@ fon_x = 0
 
 fon1_x = 800
 
+
+s_x = 600
+s_y = 600
+
+
 dash_y = 500
-#spike = pg.transform.scale(pg.image.load('tr.png'), (50, 50))
+spike = pg.transform.scale(pg.image.load('tr.png'), (50, 50))
 dash = pg.transform.scale(pg.image.load('Cube.png'), (50, 50))
 isJump = False
 jumpCount = Config.ABS_JUMP_COUNT
@@ -63,14 +68,16 @@ class Block(pg.sprite.Sprite):
             blocks.remove(self)
 
 
-#spikescor = [(800,200,600)]
-#spike == spikescor
+
+spikescor = list()
+spike == spikescor
+spikescor = [(800,200,600)]
 blocksscor = [(400,500,200),
     (500,400,900,),
     (500,200,1600)]
-#spikes = pg.sprite.Group()
-#for s in spikescor:
-    #spikes.add(spike(*s))
+spikes = pg.sprite.Group()
+for s in spikescor:
+    spikes.add(spike(*s))
 blocks = pg.sprite.Group()
 for b in blocksscor:
     blocks.add(Block(*b))
@@ -85,8 +92,9 @@ while run:
     window.blit(fon1, (fon1_x,0))
     window.blit(fon, (fon_x,0))
     window.blit(dash, (0, dash_y))
+    window.blit(spike, (s_x, s_y))
     blocks.update()
-    #spikes.update()
+    spikes.update()
 
     events = pg.event.get()
     
