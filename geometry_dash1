@@ -14,7 +14,7 @@ fon_x = 0
 fon1_x = 800
 
 dash_y = 500
-
+#spike = pg.transform.scale(pg.image.load('tr.png'), (50, 50))
 dash = pg.transform.scale(pg.image.load('Cube.png'), (50, 50))
 isJump = False
 jumpCount = Config.ABS_JUMP_COUNT
@@ -22,22 +22,28 @@ run = True
 clock = pg.time.Clock()
 finish = False
 
-class Spike(pg.sprite.Sprite):
-    def __init__(self,width1,y,x = 800):
-        super().__init__()
-        self.width1 = width1
-        self.speed = Config.GENERAL_SPEED
-        self.height1 = 10
-        self.image1 = pg.Surface((self.width1,self.height1))
-        self.image1.fill((0,0,0))
-        self.rect1 = self.image1.get_rect()
-        self.rect1.y = y
-        self.rect1.x = x
-    def updates(self):
-        self.rect.x -= self.speed
-        window.blit(self.image1, (self.rect1.x,self.rect1.y))
-        if self.rect.x + self.width1 < 0:
-            spikes.remove(self)
+
+
+
+#class Spike(pg.sprite.Sprite):
+    #def __init__(self,width1,y,x = 800):
+        #super().__init__()
+        #self.width1 = width1
+        #self.speed = Config.GENERAL_SPEED
+        #self.height1 = 10
+        #self.image1 = pg.Surface((self.width1,self.height1))
+        #self.image1.fill((0,0,0))
+        #self.rect1 = self.image1.get_rect()
+        #self.rect1.y = y
+        #self.rect1.x = x
+    #def updates(self):
+        #self.rect.x -= self.speed
+        #window.blit(self.image1, (self.rect1.x,self.rect1.y))
+        #if self.rect.x + self.width1 < 0:
+            #spikes.remove(self)
+
+
+
 
 class Block(pg.sprite.Sprite):
     def __init__(self,width,y,x = 800):
@@ -56,21 +62,23 @@ class Block(pg.sprite.Sprite):
         if self.rect.x + self.width < 0:
             blocks.remove(self)
 
-spikescor = [(500,300,0)]
+
+#spikescor = [(800,200,600)]
+#spike == spikescor
 blocksscor = [(400,500,200),
     (500,400,900,),
     (500,200,1600)]
-spikes = pg.sprite.Group()
-for s in spikescor:
-    spikes.add(Spike(*s))
+#spikes = pg.sprite.Group()
+#for s in spikescor:
+    #spikes.add(spike(*s))
 blocks = pg.sprite.Group()
 for b in blocksscor:
     blocks.add(Block(*b))
 
 
-mixer.init()
-mixer.music.load('BaseAfterBase.ogg')
-mixer.music.play()
+pg.mixer.init()
+pg.mixer.music.load('BaseAfterBase.ogg')
+pg.mixer.music.play()
 
 
 while run:
@@ -78,11 +86,11 @@ while run:
     window.blit(fon, (fon_x,0))
     window.blit(dash, (0, dash_y))
     blocks.update()
-    spikes.update()
+    #spikes.update()
 
     events = pg.event.get()
     
-    
+    #print(spikescor)
     fon_x -= Config.GENERAL_SPEED
     fon1_x -= Config.GENERAL_SPEED
     if fon_x == -800:
@@ -97,9 +105,9 @@ while run:
     keys_pressed = pg.key.get_pressed()
 
 
-    if sprite.collide_rect(dash, spikescor):
-        finish = True
-        window.blit(lose, (200, 200))
+    #if sprite.collide_rect(dash, spikescor):
+        #finish = True
+        #window.blit(lose, (200, 200))
 
 
 
